@@ -1,5 +1,5 @@
 const express = require('express')
-const { generate } = require('mrz-gen')
+const { generateMRZ } = require('./mrz-calculator')
 var bodyParser = require('body-parser')
 
 
@@ -17,19 +17,18 @@ app.listen(process.env.PORT || 3000, () => {
 
 app.get('/generate', (req, res) => {
 
-    const code = generate({
-        user: {
-            firstName: req.body.firstName + ' ' + req.body.secondName || "",
-            lastName: req.body.lastName || "",
-            passportNumber: req.body.dni || "",
-            countryCode: 'ARG',
+    const code = generateMRZ(
+        {
+            doc_type: 'ID',
+            dni_number: req.body.dni,
             nationality: 'ARG',
-            birthday: req.body.birthday || "",
-            gender: req.body.sex || "",
-            validUntilDay: req.body.expiration || "",
-            personalNumber: req.body.identificationNumber || ""
-        },
-    });
+            expiration: req.body.expiration,
+            sex: req.body.sex,
+            birthdate: req.body.birthdate,
+            names: req.body.names,
+            surnames: req.body.surnames,
+        }
+    );
 
-    res.status(200).send({ code: String(code) });
+    res.status(200).send({ code: code.join("") });
 })
