@@ -103,9 +103,9 @@ const calculateThirdRow = (names, surnames) => {
 
 const generateMRZ = ({ doc_type, dni_number, nationality, expiration, sex, birthdate, names, surnames }) => {
     let mrz = [
-        [],
-        [],
-        []
+        new Array(30).fill(filler),
+        new Array(30).fill(filler),
+        new Array(30).fill(filler)
     ]
     
     mrz[0] = calculateFirstRow(doc_type, nationality, dni_number).join("")
