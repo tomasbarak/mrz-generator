@@ -49,7 +49,7 @@ const calculateFirstRow = (doc_type, nationality, dni_number) => {
 
     const checkDigit = calculateCheckDigit(dni_number.join(""))
 
-    line[14] = checkDigit.toString();
+    //
 
     return line;
 }
@@ -71,12 +71,6 @@ const calculateSecondRow = (birthdate, sex, expiration, nationality) => {
             line[i] = filler;
         }
     }
-
-    const checkDigit_1 = calculateCheckDigit(birthdate.join(""))
-    const checkDigit_2 = calculateCheckDigit(expiration.join(""))
-
-    line[6] = checkDigit_1.toString();
-    line[14] = checkDigit_2.toString();
 
     return line;
 }
@@ -113,14 +107,24 @@ const generateMRZ = ({ doc_type, dni_number, nationality, expiration, sex, birth
     mrz[2] = calculateThirdRow(names, surnames)
 
     let parts = [
-        mrz[0].slice(5, 29).join(""),
+        mrz[0].slice(5, 30).join(""),
         mrz[1].slice(0, 6).join(""),
         mrz[1].slice(8, 14).join(""),
-        mrz[1].slice(18, 28).join(""),
     ]
 
+    console.log("UPPER", parts[0], parts[0].length)
+    console.log("MIDDLE", [parts[1], parts[2]].join(""), [parts[1], parts[2]].join("").length)
+
+    const checkDigit_1 = calculateCheckDigit(dni_number);
+    const checkDigit_2 = calculateCheckDigit(birthdate);
+    const checkDigit_3 = calculateCheckDigit(expiration);
     const compositeCheckDigit = calculateCheckDigit(parts.join(""))
-    mrz[1][29] = compositeCheckDigit.toString();
+
+    mrz[0][14] = checkDigit_1;
+    mrz[1][6] = checkDigit_2;
+    mrz[1][14] = checkDigit_3;
+    mrz[1][29] = compositeCheckDigit;
+
 
     mrz[0] = mrz[0].join("")
     mrz[1] = mrz[1].join("")
