@@ -1,9 +1,10 @@
 const express = require('express')
 const { generateMRZ } = require('./mrz-calculator')
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 const app = express();
-
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
