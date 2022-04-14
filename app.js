@@ -27,5 +27,5 @@ app.get('/generate', (req, res) => {
         }
     );
 
-    res.status(200).send({ code: code.join("") });
+    res.status(200).send({ code: code.join('\n') });
 })
