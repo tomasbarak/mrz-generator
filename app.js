@@ -12,7 +12,7 @@ app.listen(process.env.PORT ||  3000, () => {
     console.log('Server up')
 });
 
-app.get('/generate', (req, res) => {
+app.post('/generate', (req, res) => {
 
     const code = generateMRZ(
         {
