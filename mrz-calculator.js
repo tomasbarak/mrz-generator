@@ -103,15 +103,15 @@ const calculateThirdRow = (names, surnames) => {
 
 const generateMRZ = ({ doc_type, dni_number, nationality, expiration, sex, birthdate, names, surnames }) => {
     let mrz = [
-        new Array(30).fill(filler),
-        new Array(30).fill(filler),
-        new Array(30).fill(filler)
+        [],
+        [],
+        []
     ]
     
-    mrz[0] = calculateFirstRow(doc_type, nationality, dni_number).join("")
-    mrz[1] = calculateSecondRow(birthdate, sex, expiration, nationality).join("")
-    mrz[2] = calculateThirdRow(names, surnames).join("")
-    
+    mrz[0] = calculateFirstRow(doc_type, nationality, dni_number)
+    mrz[1] = calculateSecondRow(birthdate, sex, expiration, nationality)
+    mrz[2] = calculateThirdRow(names, surnames)
+
     let parts = [
         mrz[0].slice(5, 29).join(""),
         mrz[1].slice(0, 6).join(""),
@@ -119,11 +119,12 @@ const generateMRZ = ({ doc_type, dni_number, nationality, expiration, sex, birth
         mrz[1].slice(18, 28).join(""),
     ]
 
-    console.log(parts.join(""))
     const compositeCheckDigit = calculateCheckDigit(parts.join(""))
-
     mrz[1][29] = compositeCheckDigit.toString();
 
+    mrz[0] = mrz[0].join("")
+    mrz[1] = mrz[1].join("")
+    mrz[2] = mrz[2].join("")
     return mrz;
 }
 
